@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>root@portfolio :: ls projects/</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; connect-src 'self' https://api.github.com https://gitlab.com https://*.vercel.app; object-src 'none'; base-uri 'self'; form-action 'self'" />
+<link rel="stylesheet" href="css/terminal.css" />
+</head>
+<body>
+<div class="crt">
+  <div id="termbar-slot"></div>
+  <div id="nav-slot"></div>
+  <div class="termbody">
+    <p class="cmdline"><span class="ps-user">visitor@portfolio</span> <span class="ps-path">~</span><span class="ps-dollar">$</span> <span class="ps-cmd">ls -la <span class="arg">projects/</span></span></p>
+    <pre class="ascii-figlet">
+ ___ ___  ___     _ ___ ___ _____ ___
+| _ \ _ \/ _ \ _ | | __/ __|_   _/ __|
+|  _/   / (_) | || | _| (__  | | \__ \
+|_| |_|_\\___/ \__/|___\___| |_| |___/
+</pre>
+    <div id="colorbar-slot"></div>
+    <p class="muted">Tools, scripts, labs, and automations related to offensive security, defensive security, and DevSecOps.</p>
+
+    <div id="projects-list">
+      <p class="empty">loading...</p>
+    </div>
+  </div>
+  <div id="footer-slot"></div>
+</div>
+
+<script src="js/util.js"></script>
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/layout.js"></script>
+<script src="js/page-projects.js"></script>
+</body>
+</html>
