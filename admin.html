@@ -4,139 +4,153 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="robots" content="noindex, nofollow" />
-<title>[visitor@portfolio ~]$ sudo admin</title>
+<title>Portfolio — Admin</title>
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; connect-src 'self' https://api.github.com https://gitlab.com https://*.vercel.app; object-src 'none'; base-uri 'self'; form-action 'self'" />
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
-<link rel="stylesheet" href="css/terminal.css?v=4" />
+<link rel="stylesheet" href="css/terminal.css?v=6" />
 </head>
 <body>
 <div class="crt">
   <div id="termbar-slot"></div>
-  <div id="nav-slot"></div>
+  <div id="menubar-slot"></div>
   <div class="termbody">
 
     <div id="login-gate" style="display:none;">
-      <p class="cmdline"><span class="ps-user">visitor@portfolio</span> <span class="ps-path">~</span><span class="ps-dollar">$</span> <span class="ps-cmd">sudo <span class="arg">admin</span></span></p>
-      <h1>Restricted access</h1>
-      <p class="muted">This section is reserved for the site owner (authentication via GitHub OAuth).</p>
-      <button id="login-btn">sign in with GitHub</button>
+      <div class="win-panel">
+        <div class="win-panel-title">Restricted Access</div>
+        <div class="win-panel-body">
+          <p class="muted">This section is reserved for the site owner (authentication via GitHub OAuth).</p>
+          <button id="login-btn">Sign in with GitHub</button>
+        </div>
+      </div>
     </div>
 
     <div id="admin-panel" style="display:none;">
-      <p class="cmdline"><span class="ps-user">root@portfolio</span> <span class="ps-path">~</span><span class="ps-dollar root">#</span> <span class="ps-cmd">sudo <span class="arg">admin</span></span></p>
-      <h1>Admin panel <span id="whoami-tag" class="muted"></span></h1>
-      <button id="logout-btn" style="float:right;">log out</button>
+      <div class="win-panel">
+        <div class="win-panel-title">Admin Panel <span id="whoami-tag"></span>
+          <button id="logout-btn" style="float:right; margin:0;">Log out</button>
+        </div>
+        <div class="win-panel-body">
+          <nav class="subtabs">
+            <a href="#" data-tab="projects" class="tab-link active">Manage Projects</a>
+            <a href="#" data-tab="writeups" class="tab-link">Manage Writeups</a>
+            <a href="#" data-tab="tools" class="tab-link">Manage Tools</a>
+          </nav>
 
-      <nav class="termnav termnav-dark" style="margin-top:2rem;">
-        <a href="#" data-tab="projects" class="tab-link active">manage projects/</a>
-        <a href="#" data-tab="writeups" class="tab-link">manage writeups/</a>
-        <a href="#" data-tab="tools" class="tab-link">manage tools/</a>
-      </nav>
+          <div id="msg-box"></div>
 
-      <div id="msg-box"></div>
+          <!-- PROJECTS TAB -->
+          <div id="tab-projects" class="tab-panel" style="margin-top:1rem;">
+            <h2>New Project</h2>
+            <form id="project-form">
+              <label>Title</label>
+              <input type="text" id="p-title" required />
+              <label>Description</label>
+              <textarea id="p-description" rows="4"></textarea>
+              <label>Tech stack (comma-separated)</label>
+              <input type="text" id="p-tech" placeholder="Python, Docker, Burp Suite" />
+              <label>Repo URL</label>
+              <input type="text" id="p-repo" placeholder="https://github.com/..." />
+              <label>Demo URL (optional)</label>
+              <input type="text" id="p-demo" />
+              <label>Category</label>
+              <select id="p-category">
+                <option value="offensive">offensive</option>
+                <option value="defensive">defensive</option>
+                <option value="devsecops">devsecops</option>
+              </select>
+              <label><input type="checkbox" id="p-featured" style="width:auto; display:inline-block;" /> feature this project</label>
+              <button type="submit" id="p-submit">Create Project</button>
+              <button type="button" id="p-cancel" style="display:none;">Cancel Editing</button>
+            </form>
 
-      <!-- PROJECTS TAB -->
-      <div id="tab-projects" class="tab-panel">
-        <h2>new project</h2>
-        <form id="project-form">
-          <label>Title</label>
-          <input type="text" id="p-title" required />
-          <label>Description</label>
-          <textarea id="p-description" rows="4"></textarea>
-          <label>Tech stack (comma-separated)</label>
-          <input type="text" id="p-tech" placeholder="Python, Docker, Burp Suite" />
-          <label>Repo URL</label>
-          <input type="text" id="p-repo" placeholder="https://github.com/..." />
-          <label>Demo URL (optional)</label>
-          <input type="text" id="p-demo" />
-          <label>Category</label>
-          <select id="p-category">
-            <option value="offensive">offensive</option>
-            <option value="defensive">defensive</option>
-            <option value="devsecops">devsecops</option>
-          </select>
-          <label><input type="checkbox" id="p-featured" style="width:auto; display:inline-block;" /> feature this project</label>
-          <button type="submit" id="p-submit">create project</button>
-          <button type="button" id="p-cancel" style="display:none;">cancel editing</button>
-        </form>
+            <h2 style="margin-top:1.5rem;">Existing Projects</h2>
+            <table class="data-table" id="projects-admin-table">
+              <thead><tr><th>Title</th><th>Category</th><th>Actions</th></tr></thead>
+              <tbody><tr><td colspan="3" class="empty">loading...</td></tr></tbody>
+            </table>
+          </div>
 
-        <h2 style="margin-top:2rem;">existing projects</h2>
-        <div id="projects-admin-list"><p class="empty">loading...</p></div>
-      </div>
+          <!-- WRITEUPS TAB -->
+          <div id="tab-writeups" class="tab-panel" style="display:none; margin-top:1rem;">
+            <h2>New Writeup</h2>
+            <form id="writeup-form">
+              <label>Title</label>
+              <input type="text" id="w-title" required />
+              <label>CTF / challenge name</label>
+              <input type="text" id="w-ctf" />
+              <label>Category</label>
+              <input type="text" id="w-category" placeholder="web, pwn, crypto, forensics, rev, osint..." />
+              <label>Difficulty</label>
+              <select id="w-difficulty">
+                <option value="easy">easy</option>
+                <option value="medium">medium</option>
+                <option value="hard">hard</option>
+                <option value="insane">insane</option>
+              </select>
+              <label>Short summary</label>
+              <textarea id="w-summary" rows="2"></textarea>
+              <label>Content (Markdown)</label>
+              <textarea id="w-content" rows="14" placeholder="## Enumeration&#10;&#10;...&#10;&#10;## Exploitation&#10;&#10;..."></textarea>
+              <label>Tags (comma-separated)</label>
+              <input type="text" id="w-tags" placeholder="sqli, jwt, buffer-overflow" />
+              <label>External link (challenge source)</label>
+              <input type="text" id="w-link" />
+              <label>Publish date</label>
+              <input type="date" id="w-date" />
+              <button type="submit" id="w-submit">Create Writeup</button>
+              <button type="button" id="w-cancel" style="display:none;">Cancel Editing</button>
+            </form>
 
-      <!-- WRITEUPS TAB -->
-      <div id="tab-writeups" class="tab-panel" style="display:none;">
-        <h2>new writeup</h2>
-        <form id="writeup-form">
-          <label>Title</label>
-          <input type="text" id="w-title" required />
-          <label>CTF / challenge name</label>
-          <input type="text" id="w-ctf" />
-          <label>Category</label>
-          <input type="text" id="w-category" placeholder="web, pwn, crypto, forensics, rev, osint..." />
-          <label>Difficulty</label>
-          <select id="w-difficulty">
-            <option value="easy">easy</option>
-            <option value="medium">medium</option>
-            <option value="hard">hard</option>
-            <option value="insane">insane</option>
-          </select>
-          <label>Short summary</label>
-          <textarea id="w-summary" rows="2"></textarea>
-          <label>Content (Markdown)</label>
-          <textarea id="w-content" rows="14" placeholder="## Enumeration&#10;&#10;...&#10;&#10;## Exploitation&#10;&#10;..."></textarea>
-          <label>Tags (comma-separated)</label>
-          <input type="text" id="w-tags" placeholder="sqli, jwt, buffer-overflow" />
-          <label>External link (challenge source)</label>
-          <input type="text" id="w-link" />
-          <label>Publish date</label>
-          <input type="date" id="w-date" />
-          <button type="submit" id="w-submit">create writeup</button>
-          <button type="button" id="w-cancel" style="display:none;">cancel editing</button>
-        </form>
+            <h2 style="margin-top:1.5rem;">Existing Writeups</h2>
+            <table class="data-table" id="writeups-admin-table">
+              <thead><tr><th>Title</th><th>CTF</th><th>Category</th><th>Actions</th></tr></thead>
+              <tbody><tr><td colspan="4" class="empty">loading...</td></tr></tbody>
+            </table>
+          </div>
 
-        <h2 style="margin-top:2rem;">existing writeups</h2>
-        <div id="writeups-admin-list"><p class="empty">loading...</p></div>
-      </div>
+          <!-- TOOLS TAB -->
+          <div id="tab-tools" class="tab-panel" style="display:none; margin-top:1rem;">
+            <p class="muted">These tools power the Arsenal table shown on the home page, by category.</p>
+            <h2>New Tool</h2>
+            <form id="tool-form">
+              <label>Name</label>
+              <input type="text" id="t-name" placeholder="nmap" required />
+              <label>Version</label>
+              <input type="text" id="t-version" placeholder="7.95" />
+              <label>Category</label>
+              <select id="t-category">
+                <option value="offensive">offensive</option>
+                <option value="defensive">defensive</option>
+                <option value="devsecops">devsecops</option>
+              </select>
+              <label>Short description (optional)</label>
+              <input type="text" id="t-description" placeholder="network scanner" />
+              <label>Display order (optional, defaults to 0)</label>
+              <input type="number" id="t-sort" value="0" />
+              <button type="submit" id="t-submit">Add Tool</button>
+              <button type="button" id="t-cancel" style="display:none;">Cancel Editing</button>
+            </form>
 
-      <!-- TOOLS TAB -->
-      <div id="tab-tools" class="tab-panel" style="display:none;">
-        <p class="muted">These tools power the "pacman -S" blocks shown on the home page, by category.</p>
-        <h2>new tool</h2>
-        <form id="tool-form">
-          <label>Name</label>
-          <input type="text" id="t-name" placeholder="nmap" required />
-          <label>Version</label>
-          <input type="text" id="t-version" placeholder="7.95" />
-          <label>Category</label>
-          <select id="t-category">
-            <option value="offensive">offensive</option>
-            <option value="defensive">defensive</option>
-            <option value="devsecops">devsecops</option>
-          </select>
-          <label>Short description (optional)</label>
-          <input type="text" id="t-description" placeholder="network scanner" />
-          <label>Display order (optional, defaults to 0)</label>
-          <input type="number" id="t-sort" value="0" />
-          <button type="submit" id="t-submit">add tool</button>
-          <button type="button" id="t-cancel" style="display:none;">cancel editing</button>
-        </form>
-
-        <h2 style="margin-top:2rem;">existing tools</h2>
-        <div id="tools-admin-list"><p class="empty">loading...</p></div>
+            <h2 style="margin-top:1.5rem;">Existing Tools</h2>
+            <table class="data-table" id="tools-admin-table">
+              <thead><tr><th>Name</th><th>Category</th><th>Actions</th></tr></thead>
+              <tbody><tr><td colspan="3" class="empty">loading...</td></tr></tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
 
   </div>
-  <div id="toolbar-slot"></div>
-  <div id="footer-slot"></div>
+  <div id="tabbar-slot"></div>
+  <div id="statusbar-slot"></div>
 </div>
 
-<script src="js/util.js?v=4"></script>
-<script src="js/config.js?v=4"></script>
-<script src="js/api.js?v=4"></script>
-<script src="js/layout.js?v=4"></script>
-<script src="js/fullscreen-art.js?v=4"></script>
-<script src="js/page-admin.js?v=4"></script>
+<script src="js/util.js?v=6"></script>
+<script src="js/config.js?v=6"></script>
+<script src="js/api.js?v=6"></script>
+<script src="js/layout.js?v=6"></script>
+<script src="js/page-admin.js?v=6"></script>
 </body>
 </html>
