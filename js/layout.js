@@ -13,14 +13,18 @@ function renderColorbar() {
 
 function renderShell(activePage) {
   // Barre de titre façon fenêtre rétro : icône + titre à gauche, boutons à droite.
-  // Barre de titre sombre, style terminal OS (points macOS)
+  // Barre de titre façon vieux Windows (icône + titre + boutons de fenêtre),
+  // recolorée en dark mode pour rester homogène avec le reste du terminal.
   const termbar = document.createElement("div");
   termbar.className = "termbar";
   termbar.innerHTML = `
-    <span class="win-dot" style="background:#ff5f56"></span>
-    <span class="win-dot" style="background:#ffbd2e"></span>
-    <span class="win-dot" style="background:#27c93f"></span>
+    <span class="win-icon">&gt;_</span>
     <span class="path">visitor@portfolio — ~/${activePage}</span>
+    <span class="win-controls">
+      <span class="win-btn" aria-hidden="true">─</span>
+      <span class="win-btn" aria-hidden="true">▭</span>
+      <span class="win-btn win-close" aria-hidden="true">✕</span>
+    </span>
   `;
 
   // Navigation façon onglets (tab bar), reliée visuellement au contenu en dessous.

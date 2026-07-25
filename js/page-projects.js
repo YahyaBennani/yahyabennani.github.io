@@ -1,7 +1,6 @@
 const { termbar, nav, footer, toolbar } = renderShell("projects.html");
 document.getElementById("termbar-slot").replaceWith(termbar);
 document.getElementById("nav-slot").replaceWith(nav);
-mountAscii3D("art-slot");
 document.getElementById("footer-slot").replaceWith(footer);
 document.getElementById("toolbar-slot").replaceWith(toolbar);
 initFullscreenArt();

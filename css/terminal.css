@@ -62,37 +62,57 @@ a:hover { text-decoration: underline; color: var(--accent); }
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px 14px;
-  background: linear-gradient(180deg, #1b1f27 0%, #14171d 100%);
+  padding: 8px 14px;
+  background: linear-gradient(180deg, #262b35 0%, #181b21 100%);
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
 }
-.win-dot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
+.win-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  background: #05070a;
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 3px;
+  border: 1px solid #3a4150;
+  flex-shrink: 0;
+}
 .termbar .path {
-  margin-left: 8px;
-  color: var(--fg-dim);
+  color: var(--fg-bright);
   font-size: 13px;
   font-weight: 600;
 }
+.win-controls {
+  margin-left: auto;
+  display: flex;
+  gap: 5px;
+}
+.win-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 20px;
+  background: linear-gradient(180deg, #3a4150 0%, #232832 100%);
+  color: var(--fg);
+  font-size: 10px;
+  border-radius: 3px;
+  border-top: 1px solid #4c5566;
+  border-left: 1px solid #4c5566;
+  border-right: 1px solid #0a0d12;
+  border-bottom: 1px solid #0a0d12;
+}
+.win-btn.win-close:hover { background: linear-gradient(180deg, #ff8a80 0%, var(--red) 100%); color: #1a0000; }
 
 .termbody {
   flex: 1 1 auto;
   width: 100%;
   background: var(--bg-panel);
-  padding: 1.75rem 1.5rem 3rem;
-}
-.termbody > * {
-  max-width: 1000px;
-  margin-left: auto;
-  margin-right: auto;
-}
-.termbody pre.ascii-figlet,
-.termbody pre.pacman,
-.termbody pre.ascii-3d,
-.termbody pre.ascii-divider {
-  max-width: 1000px;
-  margin-left: auto;
-  margin-right: auto;
+  padding: 1.75rem 2.5rem 3rem;
 }
 
 /* ASCII banner */
@@ -290,9 +310,10 @@ nav.termnav a {
   font-size: 13px;
   font-weight: 600;
   padding: 7px 16px 8px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border);
-  border-bottom: none;
+  background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
+  border-top: 1px solid #3a4150;
+  border-left: 1px solid #3a4150;
+  border-right: 1px solid var(--border);
   border-radius: 5px 5px 0 0;
   text-decoration: none;
 }
@@ -313,7 +334,7 @@ h2::before { content: "## "; color: var(--fg-dim); }
 h3 { font-size: 1rem; }
 h3::before { content: "### "; color: var(--fg-dim); }
 
-p { color: var(--fg); margin: 0 0 1rem; }
+p { color: var(--fg); margin: 0 0 1rem; max-width: 80ch; }
 .muted { color: var(--fg-dim); }
 
 /* Cards / list items styled like ls -la output */
@@ -387,10 +408,7 @@ button.danger:hover, .btn.danger:hover { background: var(--danger); color: #0510
 /* Footer */
 footer {
   margin-top: 0;
-  padding: 1.25rem 1.5rem 2rem;
-  max-width: 1000px;
-  margin-left: auto;
-  margin-right: auto;
+  padding: 1.25rem 2.5rem 2rem;
   border-top: 1px dashed var(--border);
   color: var(--fg-dim);
   font-size: 12px;
@@ -551,12 +569,10 @@ footer {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  padding: 12px 1.5rem;
+  padding: 12px 2.5rem;
   background: var(--bg-panel);
   border-top: 1px solid var(--border);
   flex-shrink: 0;
-  max-width: 1000px;
-  margin: 0 auto;
   width: 100%;
 }
 .win-toolbar button, .win-toolbar a.win-toolbar-btn {
