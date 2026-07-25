@@ -3,14 +3,16 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>root@portfolio :: ls writeups/</title>
+<title>[visitor@portfolio ~]$ ls writeups/</title>
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; connect-src 'self' https://api.github.com https://gitlab.com https://*.vercel.app; object-src 'none'; base-uri 'self'; form-action 'self'" />
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
 <link rel="stylesheet" href="css/terminal.css" />
 </head>
 <body>
 <div class="crt">
   <div id="termbar-slot"></div>
   <div id="nav-slot"></div>
+  <div id="art-slot"></div>
   <div class="termbody">
     <p class="cmdline"><span class="ps-user">visitor@portfolio</span> <span class="ps-path">~</span><span class="ps-dollar">$</span> <span class="ps-cmd">ls -la <span class="arg">writeups/</span></span></p>
     <pre class="ascii-figlet">
@@ -20,12 +22,13 @@ __      _____ ___ _____ ___ _   _ ___  ___
   \_/\_/ |_|_\___| |_| |___|\___/|_|  |___/
 </pre>
     <div id="colorbar-slot"></div>
-    <p class="muted">CTF and challenges, solved and/or authored — web, pwn, crypto, forensics, reverse, OSINT...</p>
+    <p class="muted">CTF and challenge writeups, solved and/or authored — web, pwn, crypto, forensics, reverse, OSINT...</p>
 
     <div id="writeups-list">
       <p class="empty">loading...</p>
     </div>
   </div>
+  <div id="toolbar-slot"></div>
   <div id="footer-slot"></div>
 </div>
 
@@ -33,6 +36,8 @@ __      _____ ___ _____ ___ _   _ ___  ___
 <script src="js/config.js"></script>
 <script src="js/api.js"></script>
 <script src="js/layout.js"></script>
+<script src="js/ascii3d.js"></script>
+<script src="js/fullscreen-art.js"></script>
 <script src="js/page-writeups.js"></script>
 </body>
 </html>

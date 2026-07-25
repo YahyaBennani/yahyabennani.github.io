@@ -22,6 +22,7 @@
 html, body {
   margin: 0;
   padding: 0;
+  height: 100%;
   background: var(--bg);
   color: var(--fg);
   font-family: var(--font-mono);
@@ -31,8 +32,8 @@ html, body {
 
 body {
   background-image:
-    linear-gradient(rgba(12, 15, 20, 0.94), rgba(12, 15, 20, 0.94)),
-    repeating-linear-gradient(0deg, rgba(23, 147, 209, 0.05) 0px, rgba(23, 147, 209, 0.05) 1px, transparent 1px, transparent 2px);
+    repeating-linear-gradient(0deg, rgba(23, 147, 209, 0.04) 0px, rgba(23, 147, 209, 0.04) 1px, transparent 1px, transparent 2px);
+  min-height: 100vh;
 }
 
 a { color: var(--cyan); text-decoration: none; }
@@ -45,30 +46,53 @@ a:hover { text-decoration: underline; color: var(--accent); }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--border); border: 2px solid var(--bg); }
 
-/* Layout shell */
+/* Layout shell - fenêtre de terminal plein écran, homogène, sans marges mortes */
 .crt {
-  max-width: 920px;
-  margin: 0 auto;
-  padding: 2rem 1.25rem 4rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
 }
 
-/* Top bar - looks like a terminal window */
+/* Top bar - barre de titre sombre, même style OS que le reste (type Terminal.app) */
 .termbar {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  background: var(--bg-panel);
-  border: 1px solid var(--border);
-  border-bottom: none;
+  gap: 10px;
+  padding: 10px 14px;
+  background: linear-gradient(180deg, #1b1f27 0%, #14171d 100%);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
 }
-.dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); }
-.termbar .path { margin-left: 12px; color: var(--fg-dim); font-size: 13px; }
+.win-dot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
+.termbar .path {
+  margin-left: 8px;
+  color: var(--fg-dim);
+  font-size: 13px;
+  font-weight: 600;
+}
 
 .termbody {
-  border: 1px solid var(--border);
+  flex: 1 1 auto;
+  width: 100%;
   background: var(--bg-panel);
-  padding: 1.5rem;
+  padding: 1.75rem 1.5rem 3rem;
+}
+.termbody > * {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.termbody pre.ascii-figlet,
+.termbody pre.pacman,
+.termbody pre.ascii-3d,
+.termbody pre.ascii-divider {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* ASCII banner */
@@ -99,6 +123,34 @@ pre.ascii-divider {
   overflow-x: auto;
   letter-spacing: -1px;
 }
+
+/* Boîte pour l'ASCII art aléatoire, affiché sur chaque page */
+pre.ascii-random {
+  display: inline-block;
+  color: var(--magenta);
+  font-size: 12px;
+  line-height: 1.2;
+  margin: 0.5rem 0 1.5rem;
+  padding: 10px 16px;
+  border: 1px solid var(--border);
+  background: rgba(232, 95, 209, 0.03);
+  text-shadow: 0 0 8px rgba(232, 95, 209, 0.35);
+}
+
+/* Solide 3D filaire animé (cube / tétraèdre / octaèdre, choisi au hasard) */
+pre.ascii-3d {
+  display: inline-block;
+  font-size: 12px;
+  line-height: 1;
+  margin: 0.5rem 0 1.5rem;
+  padding: 10px 16px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.015);
+  white-space: pre;
+}
+pre.ascii-3d-cyan { color: var(--cyan); text-shadow: 0 0 10px rgba(79, 216, 232, 0.45); }
+pre.ascii-3d-magenta { color: var(--magenta); text-shadow: 0 0 10px rgba(232, 95, 209, 0.45); }
+pre.ascii-3d-accent { color: var(--accent); text-shadow: 0 0 10px rgba(23, 147, 209, 0.45); }
 
 /* neofetch-style layout: ascii art left, info list right */
 .neofetch {
@@ -222,22 +274,36 @@ pre.pacman {
 }
 @keyframes blink { 50% { opacity: 0; } }
 
-/* Nav */
+/* Nav - retro tab bar, sits right under the title bar (or inside a panel for sub-nav) */
 nav.termnav {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
-  margin: 1.5rem 0 2rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px dashed var(--border);
+  gap: 4px;
+  margin: 0;
+  padding: 8px 8px 0;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
 }
 nav.termnav a {
-  color: var(--fg);
-  font-size: 14px;
+  color: var(--fg-dim);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 7px 16px 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-bottom: none;
+  border-radius: 5px 5px 0 0;
+  text-decoration: none;
 }
-nav.termnav a::before { content: "> "; color: var(--fg-dim); }
-nav.termnav a:hover, nav.termnav a.active { color: var(--accent); text-decoration: none; }
-nav.termnav a.active::before { content: "$ "; color: var(--accent); }
+nav.termnav a::before { content: ""; }
+nav.termnav a:hover { color: var(--fg-bright); background: rgba(255, 255, 255, 0.07); text-decoration: none; }
+nav.termnav a.active {
+  color: var(--fg-bright);
+  background: var(--bg);
+  border-color: var(--accent);
+  box-shadow: inset 0 2px 0 var(--accent);
+}
 
 /* Section headers */
 h1, h2, h3 { color: var(--fg-bright); font-weight: 600; margin: 0 0 0.75rem; }
@@ -320,8 +386,11 @@ button.danger:hover, .btn.danger:hover { background: var(--danger); color: #0510
 
 /* Footer */
 footer {
-  margin-top: 2rem;
-  padding-top: 1rem;
+  margin-top: 0;
+  padding: 1.25rem 1.5rem 2rem;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
   border-top: 1px dashed var(--border);
   color: var(--fg-dim);
   font-size: 12px;
@@ -329,6 +398,7 @@ footer {
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 8px;
+  flex-shrink: 0;
 }
 
 /* Contact section */
@@ -434,3 +504,78 @@ footer {
 .md-body img { max-width: 100%; border: 1px solid var(--border); }
 .md-body table { border-collapse: collapse; width: 100%; }
 .md-body th, .md-body td { border: 1px solid var(--border); padding: 6px 10px; font-size: 13px; }
+
+/* ============ Fullscreen ASCII splash (bouton toolbar) ============ */
+.ascii-fullscreen-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #05070a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  cursor: pointer;
+  animation: fadeIn 0.15s ease;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.ascii-fullscreen-art {
+  font-size: clamp(7px, 1.6vw, 16px);
+  line-height: 1.15;
+  margin: 0 0 1.5rem;
+  text-align: center;
+  white-space: pre;
+  overflow-x: auto;
+  max-width: 100%;
+}
+.ascii-fullscreen-green { color: var(--green); text-shadow: 0 0 14px rgba(111,232,111,0.55); }
+.ascii-fullscreen-cyan { color: var(--cyan); text-shadow: 0 0 14px rgba(79,216,232,0.55); }
+.ascii-fullscreen-accent { color: var(--accent); text-shadow: 0 0 14px rgba(23,147,209,0.55); }
+.ascii-fullscreen-red { color: var(--red); text-shadow: 0 0 14px rgba(255,95,95,0.55); }
+.ascii-fullscreen-tagline {
+  color: var(--fg-bright);
+  font-size: 14px;
+  margin: 0 0 2rem;
+  text-align: center;
+}
+.ascii-fullscreen-hint {
+  color: var(--fg-dim);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ============ Bottom toolbar, retro button row ============ */
+.win-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 1.5rem;
+  background: var(--bg-panel);
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
+}
+.win-toolbar button, .win-toolbar a.win-toolbar-btn {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  background: transparent;
+  border: 1px solid var(--accent);
+  border-radius: 3px;
+  padding: 8px 14px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+.win-toolbar button:hover, .win-toolbar a.win-toolbar-btn:hover {
+  background: var(--accent);
+  color: #05100a;
+  text-decoration: none;
+}
+.win-toolbar #fullscreen-ascii-btn { border-color: var(--magenta); color: var(--magenta); }
+.win-toolbar #fullscreen-ascii-btn:hover { background: var(--magenta); color: #05100a; }

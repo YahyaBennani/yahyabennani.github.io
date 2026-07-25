@@ -5,12 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>[visitor@portfolio ~]$ whoami</title>
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; connect-src 'self' https://api.github.com https://gitlab.com https://*.vercel.app; object-src 'none'; base-uri 'self'; form-action 'self'" />
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
 <link rel="stylesheet" href="css/terminal.css" />
 </head>
 <body>
 <div class="crt">
   <div id="termbar-slot"></div>
   <div id="nav-slot"></div>
+  <div id="art-slot"></div>
   <div class="termbody">
 
     <!-- ============ HERO ASCII ============ -->
@@ -19,64 +21,60 @@
 | _ \/ _ \| _ \_   _| __/ _ \| |  |_ _/ _ \
 |  _/ (_) |   / | | | _| (_) | |__ | | (_) |
 |_|  \___/|_|_\ |_| |_| \___/|____|___\___/
-
 </pre>
     <div id="colorbar-slot"></div>
 
     <!-- ============ ABOUT ============ -->
     <p class="cmdline"><span class="ps-user">visitor@portfolio</span> <span class="ps-path">~</span><span class="ps-dollar">$</span> <span class="ps-cmd">cat about.md</span></p>
     <p>
-      Welcome to my terminal. I'm a cybersecurity student currently finishing my engineering
-      degree, with the goal of joining a security team as an engineer.
-      I'm particularly interested in three complementary areas:
+      Welcome to my terminal. I'm a cybersecurity student finishing my engineering degree, aiming
+      to join a security team as an engineer. I'm particularly interested in three complementary
+      areas:
     </p>
     <p>
-      <strong style="color: var(--red);">Offensive security</strong> — web and infrastructure pentesting,
-      vulnerability exploitation, lateral movement, red team. I like understanding a system by
-      trying to break it properly, with a reproducible and well-documented methodology.
+      <strong style="color: var(--red);">Offensive security</strong> — web and infrastructure
+      pentesting, vulnerability exploitation, lateral movement, red teaming. I enjoy understanding
+      a system by trying to break it cleanly, with a reproducible and documented methodology.
     </p>
     <p>
       <strong style="color: var(--cyan);">Defensive security</strong> — intrusion detection, log
       analysis, system and network hardening, incident response. Understanding the attack to
-      better detect it, and vice versa.
+      detect it better, and vice versa.
     </p>
     <p>
       <strong style="color: var(--yellow);">DevSecOps</strong> — integrating security into CI/CD
-      pipelines: dependency scanning, automated SAST/DAST, secrets management,
-      secure infrastructure as code from the design stage ("shift left").
+      pipelines: dependency scanning, automated SAST/DAST, secrets management, secure
+      infrastructure-as-code from the design stage ("shift left").
     </p>
     <p>
       My working methodology on a challenge or project always follows the same thread: thorough
       recon, methodical enumeration, hypothesis formulation, controlled exploitation, then
-      complete documentation — it's this last step that feeds the writeups section of this site.
+      complete documentation — that last step is what feeds the writeups section of this site.
     </p>
 
     <pre class="ascii-divider">────────────────────────────────────────────────────────────────</pre>
 
-    <!-- ============ EDUCATION / CERTIFS ============ -->
+    <!-- ============ EDUCATION / CERTIFICATIONS ============ -->
     <p class="cmdline"><span class="ps-user">visitor@portfolio</span> <span class="ps-path">~</span><span class="ps-dollar">$</span> <span class="ps-cmd">cat education.txt certifications.txt</span></p>
     <div class="lsout">
-      <div class="row"><span class="perm">-rw-r--r--</span><span class="owner">visitor</span><span class="size">2024</span><span class="name file">Engineering degree — Cybersecurity (in progress)</span></div>
-      <div class="row"><span class="perm">-rw-r--r--</span><span class="owner">visitor</span><span class="size">—</span><span class="name file">Bachelor's / prep classes — computer science track</span></div>
-      <div class="row"><span class="perm">-rwxr-xr-x</span><span class="owner">visitor</span><span class="size">cert</span><span class="name exec">eJPT — eLearnSecurity Junior Penetration Tester (in preparation)</span></div>
-      <div class="row"><span class="perm">-rwxr-xr-x</span><span class="owner">visitor</span><span class="size">cert</span><span class="name exec">AWS Solutions Architect (in preparation)</span></div>
-      <div class="row"><span class="perm">-rwxr-xr-x</span><span class="owner">visitor</span><span class="size">cert</span><span class="name exec">Malware Analysis Fundamentals</span></div>
-      <div class="row"><span class="perm">-rwxr-xr-x</span><span class="owner">visitor</span><span class="size">cert</span><span class="name exec">Mobile applications security</span></div>
-      <div class="row"><span class="perm">-rwxr-xr-x</span><span class="owner">visitor</span><span class="size">cert</span><span class="name exec">Openclassroom certificats (forensics, aws, AD...)</span></div>
-      <div class="row"><span class="perm">-rwxr-xr-x</span><span class="owner">visitor</span><span class="size">cert</span><span class="name exec">TryHackMe / HackTheBox (learning paths & playing machines)</span></div>
+      <div class="row"><span class="perm">-rw-r--r--</span><span class="owner">visitor</span><span class="size">2024</span><span class="name file">Engineering degree — Cybersecurity (in progress / customize me)</span></div>
+      <div class="row"><span class="perm">-rw-r--r--</span><span class="owner">visitor</span><span class="size">—</span><span class="name file">Bachelor's / prep classes — Computer Science (customize me)</span></div>
+      <div class="row"><span class="perm">-rwxr-xr-x</span><span class="owner">visitor</span><span class="size">cert</span><span class="name exec">eJPT — eLearnSecurity Junior Penetration Tester (customize me)</span></div>
+      <div class="row"><span class="perm">-rwxr-xr-x</span><span class="owner">visitor</span><span class="size">cert</span><span class="name exec">OSCP — Offensive Security Certified Professional (in progress)</span></div>
+      <div class="row"><span class="perm">-rwxr-xr-x</span><span class="owner">visitor</span><span class="size">cert</span><span class="name exec">TryHackMe / HackTheBox — Top X% (replace with your real rank)</span></div>
     </div>
-    <p class="muted" style="font-size:12px; margin-top:-0.5rem;"></p>
+    <p class="muted" style="font-size:12px; margin-top:-0.5rem;">// replace these lines with your real background in index.html</p>
 
     <pre class="ascii-divider">────────────────────────────────────────────────────────────────</pre>
 
-    <!-- ============ ARSENAL — OUTILS ============ -->
+    <!-- ============ ARSENAL — TOOLS ============ -->
     <pre class="ascii-figlet small">
    _   ___  ___ ___ _  _   _   _
   /_\ | _ \/ __| __| \| | /_\ | |
  / _ \|   /\__ \ _|| .` |/ _ \| |__
 /_/ \_\_|_\|___/___|_|\_/_/ \_\____|
 </pre>
-    <p class="muted">Tools and technologies I use daily, organized by domain.</p>
+    <p class="muted">Tools and technologies I use day to day, sorted by domain.</p>
 
     <p class="cmdline"><span class="ps-user">visitor@portfolio</span> <span class="ps-path">~</span><span class="ps-dollar">$</span> <span class="ps-cmd">sudo pacman -S <span class="arg">offensive-toolkit</span></span></p>
     <pre class="pacman" id="pac-offensive"><span class="pac-dim">loading...</span></pre>
@@ -89,20 +87,20 @@
 
     <pre class="ascii-divider">────────────────────────────────────────────────────────────────</pre>
 
-    <!-- ============ SITE MAP — SYSTEMCTL STYLE (short section descriptions) ============ -->
+    <!-- ============ SITE MAP — SYSTEMCTL STYLE ============ -->
     <p class="cmdline"><span class="ps-user">visitor@portfolio</span> <span class="ps-path">~</span><span class="ps-dollar">$</span> <span class="ps-cmd">systemctl status <span class="arg">portfolio.target</span></span></p>
     <div class="svc-list">
       <div class="svc-header">● portfolio.target — Cybersecurity Portfolio</div>
       <div class="svc-meta">Loaded: loaded (/etc/systemd/system/portfolio.target; enabled)<br>Active: active (running)</div>
 
-      <div class="svc-line"><span class="svc-dot">●</span><span class="svc-name">projects.service</span><span class="svc-state">active (running)</span><span class="svc-desc">— my technical projects: tools, scripts, labs, security automations</span></div>
+      <div class="svc-line"><span class="svc-dot">●</span><span class="svc-name">projects.service</span><span class="svc-state">active (running)</span><span class="svc-desc">— my technical projects: tools, scripts, labs, security automation</span></div>
       <div class="svc-line"><span class="svc-dot">●</span><span class="svc-name">writeups.service</span><span class="svc-state">active (running)</span><span class="svc-desc">— CTF and challenge writeups, solved and/or authored</span></div>
       <div class="svc-line"><span class="svc-dot">●</span><span class="svc-name">contact.service</span><span class="svc-state">active (running)</span><span class="svc-desc">— networks, public profiles, and getting in touch</span></div>
     </div>
 
     <div class="card">
       <div class="title">→ projects.html</div>
-      <div class="desc">Tools, scripts, labs, and automations related to offensive security, defensive security, and DevSecOps.</div>
+      <div class="desc">Tools, scripts, labs, and automation related to offensive security, defensive security, and DevSecOps.</div>
       <div class="card-links"><a href="projects.html">explore the projects</a></div>
     </div>
     <div class="card">
@@ -124,9 +122,9 @@
     <div class="contact-grid">
       <div>
         <div class="profile-photo-frame">
-          <img src="assets/me.jpeg" alt="Profile photo" id="profile-photo" />
+          <img src="assets/profile-placeholder.svg" alt="Profile photo" id="profile-photo" />
         </div>
-        <div class="profile-photo-caption"></div>
+        <div class="profile-photo-caption">replace assets/profile-placeholder.svg<br>with your own photo</div>
       </div>
       <div class="social-cards">
         <div class="social-card" id="card-github"><p class="empty">loading...</p></div>
@@ -137,6 +135,7 @@
 
     <p class="cmdline"><span class="ps-user">visitor@portfolio</span> <span class="ps-path">~</span><span class="ps-dollar">$</span> <span class="blink">█</span></p>
   </div>
+  <div id="toolbar-slot"></div>
   <div id="footer-slot"></div>
 </div>
 
@@ -144,6 +143,8 @@
 <script src="js/config.js"></script>
 <script src="js/api.js"></script>
 <script src="js/layout.js"></script>
+<script src="js/ascii3d.js"></script>
+<script src="js/fullscreen-art.js"></script>
 <script src="js/contact.js"></script>
 <script src="js/page-index.js"></script>
 </body>

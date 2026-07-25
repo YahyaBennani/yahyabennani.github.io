@@ -1,12 +1,15 @@
-const { termbar, nav, footer } = renderShell("index.html");
+const { termbar, nav, footer, toolbar } = renderShell("index.html");
 document.getElementById("termbar-slot").replaceWith(termbar);
 document.getElementById("nav-slot").replaceWith(nav);
+mountAscii3D("art-slot");
 document.getElementById("footer-slot").replaceWith(footer);
+document.getElementById("toolbar-slot").replaceWith(toolbar);
+initFullscreenArt();
 document.getElementById("colorbar-slot").replaceWith(renderColorbar());
 
 initContactCards();
 
-// ---- Blocs pacman dynamiques, alimentés par la base de données ----
+// ---- Dynamic pacman blocks, powered by the database ----
 const CATEGORY_META = {
   offensive: { targetId: "pac-offensive", label: "offensive-toolkit" },
   defensive: { targetId: "pac-defensive", label: "defensive-toolkit" },
@@ -17,7 +20,7 @@ function renderPacmanBlock(category, tools) {
   const el = document.getElementById(CATEGORY_META[category].targetId);
   const label = CATEGORY_META[category].label;
   if (!tools.length) {
-    el.innerHTML = `<span class="pac-dim">:: aucun outil enregistré pour ${label} pour le moment.</span>`;
+    el.innerHTML = `<span class="pac-dim">:: no tools registered for ${label} yet.</span>`;
     return;
   }
   const pkgList = tools.map((t) => `<span class="pac-pkg">${escapeHtml(t.name)}${t.version ? "-" + escapeHtml(t.version) : ""}</span>`).join("  ");
@@ -48,7 +51,7 @@ async function loadTools() {
   } catch (err) {
     ["offensive", "defensive", "devsecops"].forEach((cat) => {
       document.getElementById(CATEGORY_META[cat].targetId).innerHTML =
-        `<span class="pac-dim">:: impossible de charger les outils (${err.message}). Vérifie js/config.js.</span>`;
+        `<span class="pac-dim">:: could not load tools (${err.message}). Check js/config.js.</span>`;
     });
   }
 }

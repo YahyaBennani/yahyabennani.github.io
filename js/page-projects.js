@@ -1,7 +1,10 @@
-const { termbar, nav, footer } = renderShell("projects.html");
+const { termbar, nav, footer, toolbar } = renderShell("projects.html");
 document.getElementById("termbar-slot").replaceWith(termbar);
 document.getElementById("nav-slot").replaceWith(nav);
+mountAscii3D("art-slot");
 document.getElementById("footer-slot").replaceWith(footer);
+document.getElementById("toolbar-slot").replaceWith(toolbar);
+initFullscreenArt();
 document.getElementById("colorbar-slot").replaceWith(renderColorbar());
 
 const catClass = (c) => {
@@ -16,26 +19,26 @@ async function loadProjects() {
   try {
     const projects = await api.get("/api/projects");
     if (projects.length === 0) {
-      container.innerHTML = `<p class="empty">// aucun projet pour l'instant. Reviens bientôt.</p>`;
+      container.innerHTML = `<p class="empty">// no projects yet. Check back soon.</p>`;
       return;
     }
     container.innerHTML = projects.map((p) => `
       <div class="card">
         <div class="title">${escapeHtml(p.title)}${p.featured ? '<span class="badge-featured">FEATURED</span>' : ""}</div>
-        <div class="meta">${new Date(p.created_at).toLocaleDateString("fr-FR")}</div>
+        <div class="meta">${new Date(p.created_at).toLocaleDateString("en-US")}</div>
         <div class="desc">${escapeHtml(p.description)}</div>
         <div>
           ${p.category ? `<span class="tag ${catClass(p.category)}">${escapeHtml(p.category)}</span>` : ""}
           ${(p.tech_stack || []).map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join("")}
         </div>
         <div class="card-links">
-          ${safeUrl(p.repo_url) ? `<a href="${safeUrl(p.repo_url)}" target="_blank" rel="noopener">code source →</a>` : ""}
+          ${safeUrl(p.repo_url) ? `<a href="${safeUrl(p.repo_url)}" target="_blank" rel="noopener">source code →</a>` : ""}
           ${safeUrl(p.demo_url) ? `<a href="${safeUrl(p.demo_url)}" target="_blank" rel="noopener">demo →</a>` : ""}
         </div>
       </div>
     `).join("");
   } catch (err) {
-    container.innerHTML = `<p class="empty">// erreur de chargement : ${err.message}. Vérifie API_BASE_URL dans js/config.js.</p>`;
+    container.innerHTML = `<p class="empty">// loading error: ${err.message}. Check API_BASE_URL in js/config.js.</p>`;
   }
 }
 loadProjects();

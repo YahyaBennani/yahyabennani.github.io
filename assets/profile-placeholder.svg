@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <rect width="200" height="200" fill="#11151c"/>
+  <rect x="1" y="1" width="198" height="198" fill="none" stroke="#1c2733" stroke-width="2"/>
+  <circle cx="100" cy="78" r="34" fill="#1793d1" opacity="0.25"/>
+  <circle cx="100" cy="78" r="34" fill="none" stroke="#1793d1" stroke-width="2"/>
+  <path d="M40 175c6-38 40-58 60-58s54 20 60 58" fill="#1793d1" opacity="0.25"/>
+  <path d="M40 175c6-38 40-58 60-58s54 20 60 58" fill="none" stroke="#1793d1" stroke-width="2"/>
+  <text x="100" y="195" text-anchor="middle" font-family="monospace" font-size="9" fill="#5f7186">remplace-moi: assets/profile.jpg</text>
+</svg>

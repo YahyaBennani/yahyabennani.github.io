@@ -8,7 +8,7 @@ async function loadGithubCard() {
   const el = document.getElementById("card-github");
   try {
     const res = await fetch(`https://api.github.com/users/${SOCIAL.github.username}`);
-    if (!res.ok) throw new Error("profil introuvable");
+    if (!res.ok) throw new Error("profile not found");
     const u = await res.json();
     el.innerHTML = `
       <img class="avatar" src="${safeUrl(u.avatar_url)}" alt="avatar GitHub" />
@@ -16,8 +16,8 @@ async function loadGithubCard() {
         <div class="platform gh">github</div>
         <div class="handle">${escapeHtml(u.login)}</div>
         <p class="bio">${escapeHtml(u.bio)}</p>
-        <p class="stat">${escapeHtml(u.public_repos)} dépôts publics · ${escapeHtml(u.followers)} followers</p>
-        <a class="card-link" href="${SOCIAL.github.url}" target="_blank" rel="noopener">voir le profil →</a>
+        <p class="stat">${escapeHtml(u.public_repos)} public repos · ${escapeHtml(u.followers)} followers</p>
+        <a class="card-link" href="${SOCIAL.github.url}" target="_blank" rel="noopener">view profile →</a>
       </div>
     `;
   } catch (err) {
@@ -29,17 +29,17 @@ async function loadGitlabCard() {
   const el = document.getElementById("card-gitlab");
   try {
     const res = await fetch(`https://gitlab.com/api/v4/users?username=${SOCIAL.gitlab.username}`);
-    if (!res.ok) throw new Error("profil introuvable");
+    if (!res.ok) throw new Error("profile not found");
     const data = await res.json();
     const u = data[0];
-    if (!u) throw new Error("profil introuvable");
+    if (!u) throw new Error("profile not found");
     el.innerHTML = `
       <img class="avatar" src="${safeUrl(u.avatar_url)}" alt="avatar GitLab" />
       <div>
         <div class="platform gl">gitlab</div>
         <div class="handle">${escapeHtml(u.username)}</div>
         <p class="bio">${escapeHtml(u.name)}</p>
-        <a class="card-link" href="${SOCIAL.gitlab.url}" target="_blank" rel="noopener">voir le profil →</a>
+        <a class="card-link" href="${SOCIAL.gitlab.url}" target="_blank" rel="noopener">view profile →</a>
       </div>
     `;
   } catch (err) {
@@ -48,7 +48,7 @@ async function loadGitlabCard() {
 }
 
 function loadLinkedinCard() {
-  // Pas d'API publique disponible pour LinkedIn : carte statique.
+  // No public API available for LinkedIn: static card.
   const el = document.getElementById("card-linkedin");
   el.innerHTML = fallbackCard("li", "linkedin", "yahya-bennani", SOCIAL.linkedin.url);
 }
@@ -59,7 +59,7 @@ function fallbackCard(cls, platform, handle, url) {
     <div>
       <div class="platform ${cls}">${platform}</div>
       <div class="handle">${handle}</div>
-      <a class="card-link" href="${url}" target="_blank" rel="noopener">voir le profil →</a>
+      <a class="card-link" href="${url}" target="_blank" rel="noopener">view profile →</a>
     </div>
   `;
 }

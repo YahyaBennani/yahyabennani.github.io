@@ -1,7 +1,10 @@
-  const { termbar, nav, footer } = renderShell("admin.html");
+  const { termbar, nav, footer, toolbar } = renderShell("admin.html");
   document.getElementById("termbar-slot").replaceWith(termbar);
   document.getElementById("nav-slot").replaceWith(nav);
+  mountAscii3D("art-slot");
   document.getElementById("footer-slot").replaceWith(footer);
+document.getElementById("toolbar-slot").replaceWith(toolbar);
+initFullscreenArt();
 
   let editingProjectId = null;
   let editingWriteupId = null;
@@ -18,7 +21,7 @@
     if (status.authenticated) {
       document.getElementById("login-gate").style.display = "none";
       document.getElementById("admin-panel").style.display = "block";
-      document.getElementById("whoami-tag").textContent = `(connecté en tant que ${status.user})`;
+      document.getElementById("whoami-tag").textContent = `(signed in as ${status.user})`;
       loadProjectsAdmin();
       loadWriteupsAdmin();
       loadToolsAdmin();
@@ -60,11 +63,11 @@
             <div class="title">${escapeHtml(p.title)}${p.featured ? '<span class="badge-featured">FEATURED</span>' : ""}</div>
             <div class="meta">${escapeHtml(p.category)} · id:${p.id}</div>
             <div class="desc">${escapeHtml(p.description)}</div>
-            <button data-edit="${p.id}">éditer</button>
-            <button data-delete="${p.id}" class="danger">supprimer</button>
+            <button data-edit="${p.id}">edit</button>
+            <button data-delete="${p.id}" class="danger">delete</button>
           </div>
         `).join("")
-        : `<p class="empty">// aucun projet.</p>`;
+        : `<p class="empty">// no projects.</p>`;
 
       container.querySelectorAll("[data-edit]").forEach((btn) =>
         btn.addEventListener("click", () => editProject(projects.find((p) => p.id == btn.dataset.edit)))
@@ -73,7 +76,7 @@
         btn.addEventListener("click", () => deleteProject(btn.dataset.delete))
       );
     } catch (err) {
-      container.innerHTML = `<p class="empty">// erreur : ${err.message}</p>`;
+      container.innerHTML = `<p class="empty">// error: ${err.message}</p>`;
     }
   }
 
@@ -86,7 +89,7 @@
     document.getElementById("p-demo").value = p.demo_url || "";
     document.getElementById("p-category").value = p.category || "offensive";
     document.getElementById("p-featured").checked = !!p.featured;
-    document.getElementById("p-submit").textContent = "mettre à jour le projet";
+    document.getElementById("p-submit").textContent = "update project";
     document.getElementById("p-cancel").style.display = "inline-block";
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
@@ -94,7 +97,7 @@
   document.getElementById("p-cancel").addEventListener("click", () => {
     editingProjectId = null;
     document.getElementById("project-form").reset();
-    document.getElementById("p-submit").textContent = "créer le projet";
+    document.getElementById("p-submit").textContent = "create project";
     document.getElementById("p-cancel").style.display = "none";
   });
 
@@ -112,10 +115,10 @@
     try {
       if (editingProjectId) {
         await api.put(`/api/projects/${editingProjectId}`, payload);
-        showMsg("Projet mis à jour.", false);
+        showMsg("Project updated.", false);
       } else {
         await api.post("/api/projects", payload);
-        showMsg("Projet créé.", false);
+        showMsg("Project created.", false);
       }
       document.getElementById("project-form").reset();
       document.getElementById("p-cancel").click();
@@ -126,10 +129,10 @@
   });
 
   async function deleteProject(id) {
-    if (!confirm("Supprimer ce projet ?")) return;
+    if (!confirm("Delete this project?")) return;
     try {
       await api.del(`/api/projects/${id}`);
-      showMsg("Projet supprimé.", false);
+      showMsg("Project deleted.", false);
       loadProjectsAdmin();
     } catch (err) {
       showMsg(err.message, true);
@@ -147,11 +150,11 @@
             <div class="title">${escapeHtml(w.title)}</div>
             <div class="meta">${escapeHtml(w.ctf_name)} · ${escapeHtml(w.category)} · id:${w.id}</div>
             <div class="desc">${escapeHtml(w.summary)}</div>
-            <button data-edit="${w.id}">éditer</button>
-            <button data-delete="${w.id}" class="danger">supprimer</button>
+            <button data-edit="${w.id}">edit</button>
+            <button data-delete="${w.id}" class="danger">delete</button>
           </div>
         `).join("")
-        : `<p class="empty">// aucun writeup.</p>`;
+        : `<p class="empty">// no writeups.</p>`;
 
       container.querySelectorAll("[data-edit]").forEach((btn) =>
         btn.addEventListener("click", async () => {
@@ -163,7 +166,7 @@
         btn.addEventListener("click", () => deleteWriteup(btn.dataset.delete))
       );
     } catch (err) {
-      container.innerHTML = `<p class="empty">// erreur : ${err.message}</p>`;
+      container.innerHTML = `<p class="empty">// error: ${err.message}</p>`;
     }
   }
 
@@ -178,7 +181,7 @@
     document.getElementById("w-tags").value = (w.tags || []).join(", ");
     document.getElementById("w-link").value = w.external_link || "";
     document.getElementById("w-date").value = w.published_at ? w.published_at.substring(0, 10) : "";
-    document.getElementById("w-submit").textContent = "mettre à jour le writeup";
+    document.getElementById("w-submit").textContent = "update writeup";
     document.getElementById("w-cancel").style.display = "inline-block";
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
@@ -186,7 +189,7 @@
   document.getElementById("w-cancel").addEventListener("click", () => {
     editingWriteupId = null;
     document.getElementById("writeup-form").reset();
-    document.getElementById("w-submit").textContent = "créer le writeup";
+    document.getElementById("w-submit").textContent = "create writeup";
     document.getElementById("w-cancel").style.display = "none";
   });
 
@@ -206,10 +209,10 @@
     try {
       if (editingWriteupId) {
         await api.put(`/api/writeups/${editingWriteupId}`, payload);
-        showMsg("Writeup mis à jour.", false);
+        showMsg("Writeup updated.", false);
       } else {
         await api.post("/api/writeups", payload);
-        showMsg("Writeup créé.", false);
+        showMsg("Writeup created.", false);
       }
       document.getElementById("writeup-form").reset();
       document.getElementById("w-cancel").click();
@@ -220,10 +223,10 @@
   });
 
   async function deleteWriteup(id) {
-    if (!confirm("Supprimer ce writeup ?")) return;
+    if (!confirm("Delete this writeup?")) return;
     try {
       await api.del(`/api/writeups/${id}`);
-      showMsg("Writeup supprimé.", false);
+      showMsg("Writeup deleted.", false);
       loadWriteupsAdmin();
     } catch (err) {
       showMsg(err.message, true);
@@ -243,11 +246,11 @@
             <div class="title">${escapeHtml(t.name)}${t.version ? " — " + escapeHtml(t.version) : ""}</div>
             <div class="meta">${escapeHtml(t.category)} · id:${t.id}</div>
             <div class="desc">${escapeHtml(t.description)}</div>
-            <button data-edit="${t.id}">éditer</button>
-            <button data-delete="${t.id}" class="danger">supprimer</button>
+            <button data-edit="${t.id}">edit</button>
+            <button data-delete="${t.id}" class="danger">delete</button>
           </div>
         `).join("")
-        : `<p class="empty">// aucun outil. Les blocs pacman de la page d'accueil afficheront "aucun outil enregistré".</p>`;
+        : `<p class="empty">// no tools yet. The pacman blocks on the home page will show "no tools registered".</p>`;
 
       container.querySelectorAll("[data-edit]").forEach((btn) =>
         btn.addEventListener("click", () => editTool(tools.find((t) => t.id == btn.dataset.edit)))
@@ -256,7 +259,7 @@
         btn.addEventListener("click", () => deleteTool(btn.dataset.delete))
       );
     } catch (err) {
-      container.innerHTML = `<p class="empty">// erreur : ${err.message}</p>`;
+      container.innerHTML = `<p class="empty">// error: ${err.message}</p>`;
     }
   }
 
@@ -267,7 +270,7 @@
     document.getElementById("t-category").value = t.category || "offensive";
     document.getElementById("t-description").value = t.description || "";
     document.getElementById("t-sort").value = t.sort_order ?? 0;
-    document.getElementById("t-submit").textContent = "mettre à jour l'outil";
+    document.getElementById("t-submit").textContent = "update tool";
     document.getElementById("t-cancel").style.display = "inline-block";
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
@@ -275,7 +278,7 @@
   document.getElementById("t-cancel").addEventListener("click", () => {
     editingToolId = null;
     document.getElementById("tool-form").reset();
-    document.getElementById("t-submit").textContent = "ajouter l'outil";
+    document.getElementById("t-submit").textContent = "add tool";
     document.getElementById("t-cancel").style.display = "none";
   });
 
@@ -291,10 +294,10 @@
     try {
       if (editingToolId) {
         await api.put(`/api/tools/${editingToolId}`, payload);
-        showMsg("Outil mis à jour.", false);
+        showMsg("Tool updated.", false);
       } else {
         await api.post("/api/tools", payload);
-        showMsg("Outil ajouté.", false);
+        showMsg("Tool added.", false);
       }
       document.getElementById("tool-form").reset();
       document.getElementById("t-cancel").click();
@@ -305,10 +308,10 @@
   });
 
   async function deleteTool(id) {
-    if (!confirm("Supprimer cet outil ?")) return;
+    if (!confirm("Delete this tool?")) return;
     try {
       await api.del(`/api/tools/${id}`);
-      showMsg("Outil supprimé.", false);
+      showMsg("Tool deleted.", false);
       loadToolsAdmin();
     } catch (err) {
       showMsg(err.message, true);
