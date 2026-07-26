@@ -12,12 +12,20 @@ function renderShell(activePage) {
     </span>
   `;
 
-  // Barre de menu décorative, façon logiciel Windows classique
+  // Barre de menu — navigation fonctionnelle (remplace File/Edit/View/Tools/Help)
   const menubar = document.createElement("div");
   menubar.className = "menubar";
-  menubar.innerHTML = `
-    <span>File</span><span>Edit</span><span>View</span><span>Tools</span><span>Help</span>
-  `;
+  const menuLinks = [
+    ["index.html", "Home"],
+    ["projects.html", "Projects"],
+    ["writeups.html", "Writeups"],
+  ];
+  menubar.innerHTML = menuLinks
+    .map(([href, label]) => {
+      const isActive = activePage === href ? "active" : "";
+      return `<a href="${href}" class="${isActive}">${label}</a>`;
+    })
+    .join("");
 
   // Barre d'onglets du bas — navigation principale (façon Cover Sheet / Problems / Meds...)
   const tabbar = document.createElement("nav");

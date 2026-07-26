@@ -118,17 +118,24 @@ a:hover { color: var(--title-1); }
 }
 .win-btn.win-close:hover { background: var(--danger); color: #ffffff; }
 
-/* ---- Barre de menu décorative (File Edit View...) ---- */
+/* ---- Barre de menu — navigation (Home / Projects / Writeups) ---- */
 .menubar {
   display: flex;
-  gap: 18px;
+  gap: 4px;
   padding: 4px 10px;
   background: var(--face);
   border-bottom: 1px solid var(--face-dark);
   font-size: 12.5px;
   flex-shrink: 0;
 }
-.menubar span:hover { background: var(--select-blue); color: #fff; padding: 0 3px; margin: 0 -3px; }
+.menubar a {
+  color: var(--text);
+  text-decoration: none;
+  padding: 2px 8px;
+  font-weight: 600;
+}
+.menubar a:hover { background: var(--select-blue); color: #fff; }
+.menubar a.active { background: var(--title-1); color: #fff; }
 
 /* ---- Corps de contenu (blanc) ---- */
 .termbody {
@@ -138,12 +145,46 @@ a:hover { color: var(--title-1); }
   padding: 1.25rem 2.5cm 2rem;
 }
 
-h1, h2, h3 { color: var(--text); font-weight: 700; margin: 0 0 0.6rem; font-family: var(--font-ui); }
-h1 { font-size: 1.3rem; }
-h2 { font-size: 1.05rem; }
+h1, h2, h3 { color: var(--text); font-weight: 700; margin: 0 0 0.6rem; font-family: var(--font-ui); letter-spacing: 0.01em; }
+h1 { font-size: 1.35rem; }
+h2 { font-size: 1.05rem; border-bottom: 1px solid #d8d5c8; padding-bottom: 4px; }
 h3 { font-size: 0.95rem; }
 p { color: var(--text); margin: 0 0 0.9rem; }
 .muted { color: var(--text-dim); }
+
+/* ---- Tableau de bord multi-panneaux (grille horizontale + verticale) ---- */
+.dashboard {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  grid-template-areas:
+    "photo about"
+    "sitemap arsenal"
+    "contact contact";
+  gap: 1rem;
+  align-items: start;
+}
+.dash-photo { grid-area: photo; }
+.dash-about { grid-area: about; }
+.dash-sitemap { grid-area: sitemap; }
+.dash-arsenal { grid-area: arsenal; }
+.dash-contact { grid-area: contact; }
+
+@media (max-width: 860px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "photo"
+      "about"
+      "arsenal"
+      "sitemap"
+      "contact";
+  }
+}
+
+.photo-panel-body { text-align: center; }
+.photo-panel-body .profile-photo-frame { margin: 0 auto 0.5rem; }
+.photo-panel-body h3 { margin: 0.5rem 0 0.15rem; }
+.photo-panel-body .role-line { color: var(--text-dim); font-size: 12px; margin-bottom: 0.5rem; }
 
 /* ---- Panneau façon mini-fenêtre (comme les sous-fenêtres CPRS) ---- */
 .win-panel {
@@ -159,8 +200,12 @@ p { color: var(--text); margin: 0 0 0.9rem; }
   color: #ffffff;
   font-weight: 700;
   font-size: 12.5px;
-  padding: 4px 8px;
+  letter-spacing: 0.02em;
+  padding: 5px 9px;
 }
+.win-panel-title.teal { background: linear-gradient(90deg, #0a4a4a 0%, #8fd8d8 100%); }
+.win-panel-title.green { background: linear-gradient(90deg, #0a4a1a 0%, #a6e8b0 100%); }
+.win-panel-title.purple { background: linear-gradient(90deg, #3a0a6a 0%, #cbb0f0 100%); }
 .win-panel-body {
   background: var(--content-bg);
   padding: 0.9rem 1rem;

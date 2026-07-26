@@ -6,7 +6,7 @@
 <title>Portfolio — Home</title>
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; connect-src 'self' https://api.github.com https://gitlab.com https://*.vercel.app; object-src 'none'; base-uri 'self'; form-action 'self'" />
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
-<link rel="stylesheet" href="css/terminal.css?v=6" />
+<link rel="stylesheet" href="css/terminal.css?v=7" />
 </head>
 <body>
 <div class="crt">
@@ -14,87 +14,88 @@
   <div id="menubar-slot"></div>
   <div class="termbody">
 
-    <!-- ============ ABOUT ============ -->
-    <div class="win-panel">
-      <div class="win-panel-title">About</div>
-      <div class="win-panel-body">
-        <p>
-          Welcome. I'm a cybersecurity student finishing my engineering degree, aiming to join a
-          security team as an engineer. I'm particularly interested in three complementary areas:
-        </p>
-        <p><strong>Offensive security</strong> — web and infrastructure pentesting, vulnerability
-          exploitation, lateral movement, red teaming. I enjoy understanding a system by trying to
-          break it cleanly, with a reproducible and documented methodology.</p>
-        <p><strong>Defensive security</strong> — intrusion detection, log analysis, system and
-          network hardening, incident response. Understanding the attack to detect it better, and
-          vice versa.</p>
-        <p><strong>DevSecOps</strong> — integrating security into CI/CD pipelines: dependency
-          scanning, automated SAST/DAST, secrets management, secure infrastructure-as-code from
-          the design stage ("shift left").</p>
-        <p>
-          My working methodology on a challenge or project always follows the same thread: thorough
-          recon, methodical enumeration, hypothesis formulation, controlled exploitation, then
-          complete documentation — that last step is what feeds the writeups section of this site.
-        </p>
-      </div>
-    </div>
+    <div class="dashboard">
 
-    <!-- ============ EDUCATION / CERTIFICATIONS ============ -->
-    <div class="win-panel">
-      <div class="win-panel-title">Education &amp; Certifications</div>
-      <div class="win-panel-body">
-        <table class="data-table">
-          <thead><tr><th>Item</th><th>Status</th><th>Detail</th></tr></thead>
-          <tbody>
-            <tr><td>Engineering degree — Cybersecurity</td><td>2024</td><td>in progress / customize me</td></tr>
-            <tr><td>Bachelor's / prep classes — Computer Science</td><td>—</td><td>customize me</td></tr>
-            <tr><td>eJPT — eLearnSecurity Junior Penetration Tester</td><td>Cert.</td><td>customize me</td></tr>
-            <tr><td>OSCP — Offensive Security Certified Professional</td><td>Cert.</td><td>in progress</td></tr>
-            <tr><td>TryHackMe / HackTheBox</td><td>Rank</td><td>Top X% — replace with your real rank</td></tr>
-          </tbody>
-        </table>
-        <p class="muted" style="font-size:11px; margin-top:0.5rem;">// replace these rows with your real background in index.html</p>
-      </div>
-    </div>
-
-    <!-- ============ ARSENAL — TOOLS (données réelles via l'API) ============ -->
-    <div class="win-panel">
-      <div class="win-panel-title">Arsenal — Tools &amp; Technologies</div>
-      <div class="win-panel-body">
-        <p class="muted">Tools and technologies I use day to day, sorted by domain.</p>
-        <table class="data-table" id="tools-table">
-          <thead><tr><th>Name</th><th>Version</th><th>Category</th><th>Description</th></tr></thead>
-          <tbody><tr><td colspan="4" class="empty">loading...</td></tr></tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- ============ SITE MAP ============ -->
-    <div class="win-panel">
-      <div class="win-panel-title">Site Map</div>
-      <div class="win-panel-body">
-        <table class="data-table">
-          <thead><tr><th>Section</th><th>Description</th></tr></thead>
-          <tbody>
-            <tr><td><a href="projects.html">Projects</a></td><td>Tools, scripts, labs, and automation related to offensive security, defensive security, and DevSecOps.</td></tr>
-            <tr><td><a href="writeups.html">Writeups</a></td><td>CTF and challenge writeups, solved and/or authored: web, pwn, crypto, forensics, reverse, OSINT...</td></tr>
-            <tr><td><a href="index.html#contact">Contact</a></td><td>Networks, public profiles, and getting in touch.</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- ============ CONTACT ============ -->
-    <div class="win-panel" id="contact">
-      <div class="win-panel-title">Contact</div>
-      <div class="win-panel-body">
-        <div class="contact-grid">
-          <div>
-            <div class="profile-photo-frame">
-              <img src="assets/me.jpeg" alt="Profile photo" id="profile-photo" />
-            </div>
-            <div class="profile-photo-caption"></div>
+      <!-- ============ PHOTO (mis en avant, comme le panneau patient de l'image) ============ -->
+      <div class="win-panel dash-photo">
+        <div class="win-panel-title">Profile</div>
+        <div class="win-panel-body photo-panel-body">
+          <div class="profile-photo-frame">
+            <img src="assets/profile-placeholder.svg" alt="Profile photo" id="profile-photo" />
           </div>
+          <h3>Yahya Bennani</h3>
+          <div class="role-line">Cybersecurity Engineering Student</div>
+          <p class="muted" style="font-size:11px;">replace assets/profile-placeholder.svg with your own photo</p>
+        </div>
+      </div>
+
+      <!-- ============ ABOUT ============ -->
+      <div class="win-panel dash-about">
+        <div class="win-panel-title">About</div>
+        <div class="win-panel-body">
+          <p>
+            Welcome. I'm a cybersecurity student finishing my engineering degree, aiming to join a
+            security team as an engineer. I'm particularly interested in three complementary areas:
+          </p>
+          <p><strong>Offensive security</strong> — web and infrastructure pentesting, vulnerability
+            exploitation, lateral movement, red teaming. I enjoy understanding a system by trying to
+            break it cleanly, with a reproducible and documented methodology.</p>
+          <p><strong>Defensive security</strong> — intrusion detection, log analysis, system and
+            network hardening, incident response. Understanding the attack to detect it better, and
+            vice versa.</p>
+          <p><strong>DevSecOps</strong> — integrating security into CI/CD pipelines: dependency
+            scanning, automated SAST/DAST, secrets management, secure infrastructure-as-code from
+            the design stage ("shift left").</p>
+        </div>
+      </div>
+
+      <!-- ============ SITE MAP + EDUCATION (colonne gauche, sous la photo) ============ -->
+      <div class="dash-sitemap">
+        <div class="win-panel">
+          <div class="win-panel-title green">Site Map</div>
+          <div class="win-panel-body">
+            <table class="data-table">
+              <tbody>
+                <tr><td><a href="projects.html">Projects</a></td></tr>
+                <tr><td><a href="writeups.html">Writeups</a></td></tr>
+                <tr><td><a href="index.html#contact">Contact</a></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="win-panel">
+          <div class="win-panel-title green">Education &amp; Certifications</div>
+          <div class="win-panel-body">
+            <table class="data-table">
+              <tbody>
+                <tr><td>Engineering degree — Cybersecurity</td><td>2024</td></tr>
+                <tr><td>Bachelor's / prep classes — CS</td><td>—</td></tr>
+                <tr><td>eJPT</td><td>customize</td></tr>
+                <tr><td>OSCP</td><td>in progress</td></tr>
+                <tr><td>THM / HTB rank</td><td>Top X%</td></tr>
+              </tbody>
+            </table>
+            <p class="muted" style="font-size:10.5px; margin-top:0.4rem;">// customize these rows in index.html</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ ARSENAL — TOOLS (données réelles via l'API) ============ -->
+      <div class="win-panel dash-arsenal">
+        <div class="win-panel-title teal">Arsenal — Tools &amp; Technologies</div>
+        <div class="win-panel-body">
+          <p class="muted">Tools and technologies I use day to day, sorted by domain.</p>
+          <table class="data-table" id="tools-table">
+            <thead><tr><th>Name</th><th>Version</th><th>Category</th><th>Description</th></tr></thead>
+            <tbody><tr><td colspan="4" class="empty">loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ============ CONTACT (pleine largeur, bas) ============ -->
+      <div class="win-panel dash-contact" id="contact">
+        <div class="win-panel-title purple">Contact</div>
+        <div class="win-panel-body">
           <div class="social-cards">
             <div class="social-card" id="card-github"><p class="empty">loading...</p></div>
             <div class="social-card" id="card-gitlab"><p class="empty">loading...</p></div>
@@ -102,6 +103,7 @@
           </div>
         </div>
       </div>
+
     </div>
 
   </div>
@@ -109,11 +111,11 @@
   <div id="statusbar-slot"></div>
 </div>
 
-<script src="js/util.js?v=6"></script>
-<script src="js/config.js?v=6"></script>
-<script src="js/api.js?v=6"></script>
-<script src="js/layout.js?v=6"></script>
-<script src="js/contact.js?v=6"></script>
-<script src="js/page-index.js?v=6"></script>
+<script src="js/util.js?v=7"></script>
+<script src="js/config.js?v=7"></script>
+<script src="js/api.js?v=7"></script>
+<script src="js/layout.js?v=7"></script>
+<script src="js/contact.js?v=7"></script>
+<script src="js/page-index.js?v=7"></script>
 </body>
 </html>
