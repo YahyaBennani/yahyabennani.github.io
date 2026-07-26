@@ -1,26 +1,27 @@
 :root {
-  /* ---- Windows Classic / 2000 (gris, bleu, blanc) ---- */
-  --face: #d4d0c8;          /* gris "3D face" des fenêtres */
-  --face-dark: #808080;     /* ombre biseau */
-  --face-darker: #404040;
-  --face-light: #ffffff;    /* reflet biseau */
-  --content-bg: #ffffff;    /* fond des zones de contenu */
+  /* ---- Windows 95/98 authentique (gris argenté, bleu marine, blanc) ---- */
+  --face: #c0c0c0;           /* gris "3D face" classique Win95/98 */
+  --face-dark: #808080;      /* ombre biseau (niveau 1) */
+  --face-darker: #000000;    /* ombre biseau (niveau 2, extérieur) */
+  --face-light: #ffffff;     /* reflet biseau (niveau 1) */
+  --face-lighter: #dfdfdf;   /* reflet biseau (niveau 2, intérieur) */
+  --content-bg: #ffffff;
   --text: #000000;
   --text-dim: #4a4a4a;
   --border: #808080;
 
-  --title-1: #0a246a;       /* bleu barre de titre (dégradé) */
-  --title-2: #a6caf0;
-  --select-blue: #316ac5;
-  --link: #0645ad;
+  --title-1: #000080;        /* bleu marine barre de titre (dégradé Win98) */
+  --title-2: #1084d0;
+  --select-blue: #000080;
+  --link: #0000ff;           /* bleu lien saturé, façon IE/Windows 90's */
 
-  --ok: #1a7a1a;
-  --warn: #8a6d00;
-  --danger: #a5231b;
+  --ok: #008000;
+  --warn: #808000;
+  --danger: #800000;
   --accent: var(--title-1);
 
-  --font-mono: "JetBrains Mono", "Fira Code", "Courier New", monospace;
-  --font-ui: "Tahoma", "Segoe UI", Arial, sans-serif;
+  --font-ui: "MS Sans Serif", "Tahoma", Geneva, Verdana, sans-serif;
+  --font-mono: "Perfect DOS VGA 437", "Courier New", monospace;
 }
 
 * { box-sizing: border-box; }
@@ -34,6 +35,9 @@ html, body {
   font-family: var(--font-ui);
   font-size: 14px;
   line-height: 1.55;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeSpeed;
 }
 
 body { min-height: 100vh; }
@@ -53,12 +57,14 @@ a:hover { color: var(--title-1); }
   border-left: 1px solid var(--face-light);
   border-right: 1px solid var(--face-darker);
   border-bottom: 1px solid var(--face-darker);
+  box-shadow: inset 1px 1px 0 var(--face-lighter), inset -1px -1px 0 var(--face-dark);
 }
 .bevel-in {
-  border-top: 1px solid var(--face-dark);
-  border-left: 1px solid var(--face-dark);
+  border-top: 1px solid var(--face-darker);
+  border-left: 1px solid var(--face-darker);
   border-right: 1px solid var(--face-light);
   border-bottom: 1px solid var(--face-light);
+  box-shadow: inset 1px 1px 0 var(--face-dark), inset -1px -1px 0 var(--face-lighter);
 }
 
 /* ============ Fenêtre principale ============ */
@@ -115,6 +121,7 @@ a:hover { color: var(--title-1); }
   border-left: 1px solid var(--face-light);
   border-right: 1px solid var(--face-darker);
   border-bottom: 1px solid var(--face-darker);
+  box-shadow: inset 1px 1px 0 var(--face-lighter), inset -1px -1px 0 var(--face-dark);
 }
 .win-btn.win-close:hover { background: var(--danger); color: #ffffff; }
 
@@ -141,13 +148,13 @@ a:hover { color: var(--title-1); }
 .termbody {
   flex: 1 1 auto;
   width: 100%;
-  background: var(--content-bg);
+  background: var(--face);
   padding: 1.25rem 2.5cm 2rem;
 }
 
 h1, h2, h3 { color: var(--text); font-weight: 700; margin: 0 0 0.6rem; font-family: var(--font-ui); letter-spacing: 0.01em; }
 h1 { font-size: 1.35rem; }
-h2 { font-size: 1.05rem; border-bottom: 1px solid #d8d5c8; padding-bottom: 4px; }
+h2 { font-size: 1.05rem; border-bottom: 1px solid #a0a0a0; padding-bottom: 4px; }
 h3 { font-size: 0.95rem; }
 p { color: var(--text); margin: 0 0 0.9rem; }
 .muted { color: var(--text-dim); }
@@ -192,6 +199,7 @@ p { color: var(--text); margin: 0 0 0.9rem; }
   border-left: 1px solid var(--face-light);
   border-right: 1px solid var(--face-darker);
   border-bottom: 1px solid var(--face-darker);
+  box-shadow: inset 1px 1px 0 var(--face-lighter), inset -1px -1px 0 var(--face-dark);
   background: var(--face);
   margin: 0 0 1.25rem;
 }
@@ -207,7 +215,7 @@ p { color: var(--text); margin: 0 0 0.9rem; }
 .win-panel-title.green { background: linear-gradient(90deg, #0a4a1a 0%, #a6e8b0 100%); }
 .win-panel-title.purple { background: linear-gradient(90deg, #3a0a6a 0%, #cbb0f0 100%); }
 .win-panel-body {
-  background: var(--content-bg);
+  background: var(--face);
   padding: 0.9rem 1rem;
   margin: 2px;
 }
@@ -231,8 +239,9 @@ p { color: var(--text); margin: 0 0 0.9rem; }
   padding: 4px 8px;
   vertical-align: top;
 }
-.data-table tr:nth-child(even) td { background: #eef1f8; }
-.data-table tr:hover td { background: #d8e4f5; }
+.data-table tr:nth-child(even) td { background: #f0f0f0; }
+.data-table tr:hover td { background: var(--select-blue); color: #ffffff; }
+.data-table tr:hover td a { color: #ffffff; }
 
 .tag {
   display: inline-block;
@@ -243,9 +252,9 @@ p { color: var(--text); margin: 0 0 0.9rem; }
   background: var(--face);
   color: var(--text);
 }
-.tag.cat-offensive { color: #ffffff; background: var(--danger); border-color: var(--danger); }
-.tag.cat-defensive { color: #ffffff; background: var(--link); border-color: var(--link); }
-.tag.cat-devsecops { color: #000; background: #e8c840; border-color: #8a6d00; }
+.tag.cat-offensive { color: #ffffff; background: var(--danger); border-color: #400000; }
+.tag.cat-defensive { color: #ffffff; background: #000080; border-color: #000040; }
+.tag.cat-devsecops { color: #000; background: #ffff00; border-color: var(--warn); }
 
 .badge-featured {
   color: #ffffff;
@@ -261,10 +270,11 @@ label { display: block; font-size: 12.5px; color: var(--text-dim); margin: 0.75r
 input, textarea, select {
   width: 100%;
   background: #ffffff;
-  border-top: 1px solid var(--face-dark);
-  border-left: 1px solid var(--face-dark);
+  border-top: 1px solid var(--face-darker);
+  border-left: 1px solid var(--face-darker);
   border-right: 1px solid var(--face-light);
   border-bottom: 1px solid var(--face-light);
+  box-shadow: inset 1px 1px 0 var(--face-dark), inset -1px -1px 0 var(--face-lighter);
   color: var(--text);
   font-family: var(--font-ui);
   font-size: 13px;
@@ -283,17 +293,19 @@ button, .btn {
   border-left: 1px solid var(--face-light);
   border-right: 1px solid var(--face-darker);
   border-bottom: 1px solid var(--face-darker);
+  box-shadow: inset 1px 1px 0 var(--face-lighter), inset -1px -1px 0 var(--face-dark);
   padding: 6px 16px;
   cursor: pointer;
   margin-top: 0.75rem;
   margin-right: 8px;
 }
-button:hover, .btn:hover { background: #e4e1d8; }
+button:hover, .btn:hover { background: #d4d4d4; }
 button:active, .btn:active {
   border-top-color: var(--face-darker);
   border-left-color: var(--face-darker);
   border-right-color: var(--face-light);
   border-bottom-color: var(--face-light);
+  box-shadow: inset 1px 1px 0 var(--face-dark), inset -1px -1px 0 var(--face-lighter);
 }
 button.danger, .btn.danger { color: var(--danger); font-weight: 700; }
 
@@ -315,9 +327,10 @@ button.danger, .btn.danger { color: var(--danger); font-weight: 700; }
   border-left: 1px solid var(--face-light);
   border-right: 1px solid var(--face-darker);
   border-bottom: 1px solid var(--face-darker);
+  box-shadow: inset 1px 1px 0 var(--face-lighter), inset -1px -1px 0 var(--face-dark);
   text-decoration: none;
 }
-.subtabs a:hover { background: #e4e1d8; }
+.subtabs a:hover { background: #d4d4d4; }
 .subtabs a.active { background: var(--select-blue); color: #ffffff; }
 
 /* ---- Barre d'onglets du bas (navigation principale) ---- */
@@ -340,13 +353,16 @@ button.danger, .btn.danger { color: var(--danger); font-weight: 700; }
   border-left: 1px solid var(--face-light);
   border-right: 1px solid var(--face-darker);
   border-bottom: 1px solid var(--face-darker);
+  box-shadow: inset 1px 1px 0 var(--face-lighter), inset -1px -1px 0 var(--face-dark);
   text-decoration: none;
 }
-.tabbar a:hover { background: #e4e1d8; }
+.tabbar a:hover { background: #d4d4d4; }
 .tabbar a.active {
-  background: var(--content-bg);
-  border-bottom: 1px solid var(--content-bg);
+  background: var(--face);
+  border-bottom: 1px solid var(--face);
+  border-top: 2px solid var(--title-1);
   color: var(--title-1);
+  font-weight: 700;
 }
 
 /* ---- Barre de statut du bas ---- */
