@@ -47,7 +47,7 @@ function renderShell(activePage) {
   statusbar.className = "statusbar";
   statusbar.innerHTML = `
     <span>Ready</span>
-    <span><a href="https://github.com/" target="_blank" rel="noopener">GitHub</a> · <a href="mailto:contact@example.com">Contact</a> · © ${new Date().getFullYear()}</span>
+    <span><a href="https://github.com/YahyaBennani" target="_blank" rel="noopener">GitHub</a> · <a href="mailto:ybennani348@gmail.com">Contact</a> · © ${new Date().getFullYear()}</span>
   `;
 
   return { termbar, menubar, tabbar, statusbar };
