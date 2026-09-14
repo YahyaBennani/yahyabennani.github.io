@@ -14,8 +14,9 @@ function escapeHtml(str) {
 // N'autorise que les liens http(s) — bloque les URLs "javascript:" ou "data:"
 // qui pourraient être utilisées pour de l'injection de script via un href.
 function safeUrl(url) {
-  if (!url) return "";
-  const trimmed = String(url).trim();
-  if (/^https?:\/\//i.test(trimmed)) return escapeHtml(trimmed);
-  return "";
+  if (typeof url !== "string" || !url || /[\u0000-\u0020\u007f]/.test(url)) return "";
+  try {
+    const parsed = new URL(url);
+    return ["https:", "http:"].includes(parsed.protocol) && !parsed.username && !parsed.password ? escapeHtml(parsed.href) : "";
+  } catch { return ""; }
 }

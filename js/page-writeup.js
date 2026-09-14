@@ -24,10 +24,15 @@ async function loadWriteup() {
       <div>${(w.tags || []).map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join("")}</div>
       ${safeUrl(w.external_link) ? `<p><a href="${safeUrl(w.external_link)}" target="_blank" rel="noopener">challenge source →</a></p>` : ""}
       <hr>
-      <div class="md-body">${DOMPurify.sanitize(marked.parse(w.content_markdown || ""))}</div>
+      <div class="md-body">${DOMPurify.sanitize(marked.parse(w.content_markdown || ""), {
+        USE_PROFILES: { html: true },
+        FORBID_TAGS: ['form', 'input', 'button', 'textarea', 'select', 'style', 'iframe', 'object', 'embed'],
+        FORBID_ATTR: ['style'],
+        SANITIZE_NAMED_PROPS: true
+      })}</div>
     `;
   } catch (err) {
-    container.innerHTML = `<p class="empty">Writeup not found or error: ${err.message}</p>`;
+    container.innerHTML = `<p class="empty">Writeup not found or error: ${escapeHtml(err.message)}</p>`;
   }
 }
 loadWriteup();

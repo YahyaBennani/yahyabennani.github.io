@@ -9,7 +9,7 @@ let editingWriteupId = null;
 
 function showMsg(text, isError) {
   const box = document.getElementById("msg-box");
-  box.innerHTML = `<div class="${isError ? "error-box" : "ok-box"}">${text}</div>`;
+  box.innerHTML = `<div class="${isError ? "error-box" : "ok-box"}">${escapeHtml(text)}</div>`;
   setTimeout(() => { box.innerHTML = ""; }, 4000);
 }
 
@@ -23,6 +23,7 @@ async function checkAuth() {
     loadProjectsAdmin();
     loadWriteupsAdmin();
     loadToolsAdmin();
+    loadEducationAdmin();
   } else {
     document.getElementById("login-gate").style.display = "block";
     document.getElementById("admin-panel").style.display = "none";
@@ -33,8 +34,10 @@ document.getElementById("login-btn").addEventListener("click", () => {
   window.location.href = `${API_BASE_URL}/api/auth/login`;
 });
 document.getElementById("logout-btn").addEventListener("click", async () => {
-  await fetch(`${API_BASE_URL}/api/auth/logout`, { method: "POST", credentials: "include" });
-  checkAuth();
+  try {
+    await api.post('/api/auth/logout');
+    await checkAuth();
+  } catch (err) { showMsg(err.message, true); }
 });
 
 // ---- Tabs ----
@@ -44,9 +47,9 @@ document.querySelectorAll(".tab-link").forEach((link) => {
     document.querySelectorAll(".tab-link").forEach((l) => l.classList.remove("active"));
     link.classList.add("active");
     const tab = link.dataset.tab;
-    document.getElementById("tab-projects").style.display = tab === "projects" ? "block" : "none";
-    document.getElementById("tab-writeups").style.display = tab === "writeups" ? "block" : "none";
-    document.getElementById("tab-tools").style.display = tab === "tools" ? "block" : "none";
+    document.querySelectorAll(".tab-panel").forEach((panel) => {
+      panel.style.display = panel.id === `tab-${tab}` ? "block" : "none";
+    });
   });
 });
 
@@ -72,7 +75,7 @@ async function loadProjectsAdmin() {
       btn.addEventListener("click", () => deleteProject(btn.dataset.delete))
     );
   } catch (err) {
-    tbody.innerHTML = `<tr><td colspan="3" class="empty">Error: ${err.message}</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="3" class="empty">Error: ${escapeHtml(err.message)}</td></tr>`;
   }
 }
 
@@ -161,7 +164,7 @@ async function loadWriteupsAdmin() {
       btn.addEventListener("click", () => deleteWriteup(btn.dataset.delete))
     );
   } catch (err) {
-    tbody.innerHTML = `<tr><td colspan="4" class="empty">Error: ${err.message}</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="4" class="empty">Error: ${escapeHtml(err.message)}</td></tr>`;
   }
 }
 
@@ -252,7 +255,7 @@ async function loadToolsAdmin() {
       btn.addEventListener("click", () => deleteTool(btn.dataset.delete))
     );
   } catch (err) {
-    tbody.innerHTML = `<tr><td colspan="3" class="empty">Error: ${err.message}</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="3" class="empty">Error: ${escapeHtml(err.message)}</td></tr>`;
   }
 }
 
@@ -311,4 +314,98 @@ async function deleteTool(id) {
   }
 }
 
-checkAuth();
+checkAuth().catch(() => {
+  document.getElementById('login-gate').style.display = 'block';
+  document.querySelector('#login-gate p').textContent = 'Could not check your session. The service may be temporarily unavailable. Please reload the page.';
+});
+
+// ---- Education & Certifications CRUD ----
+let editingEducationId = null;
+const educationForm = document.getElementById('education-form');
+const educationFields = ['title', 'kind', 'institution', 'period', 'description', 'verification_url', 'sort_order'];
+function resetEducation() {
+  editingEducationId = null;
+  educationForm.reset();
+  document.getElementById('e-heading').textContent = 'New Education / Certification';
+  document.getElementById('e-submit').textContent = 'Add Entry';
+  document.getElementById('e-cancel').hidden = true;
+  for (const kind of ['image', 'pdf']) document.getElementById(`e-${kind}-current`).replaceChildren();
+}
+document.getElementById('e-cancel').addEventListener('click', resetEducation);
+for (const kind of ['image', 'pdf']) {
+  document.getElementById(`e-${kind}`).addEventListener('change', () => { document.getElementById(`e-${kind}-remove`).checked = false; });
+  document.getElementById(`e-${kind}-remove`).addEventListener('change', (event) => {
+    if (event.target.checked) document.getElementById(`e-${kind}`).value = '';
+  });
+}
+async function loadEducationAdmin() {
+  const tbody = document.querySelector('#education-admin-table tbody');
+  try {
+    const entries = await api.get('/api/education');
+    tbody.innerHTML = entries.length ? entries.map((entry) => `<tr>
+      <td>${escapeHtml(entry.title)}<br><span class="muted">${escapeHtml(entry.institution)}</span></td>
+      <td>${escapeHtml(entry.kind)}<br>${escapeHtml(entry.period)}</td>
+      <td>${documentButtons(entry) || 'No documents'}</td>
+      <td><button data-edit="${entry.id}">Edit</button><button class="danger" data-delete="${entry.id}">Delete</button></td>
+    </tr>`).join('') : '<tr><td colspan="4" class="empty">No entries yet.</td></tr>';
+    bindDocumentButtons(tbody);
+    tbody.querySelectorAll('[data-edit]').forEach((button) => button.addEventListener('click', () => {
+      resetEducation();
+      const entry = entries.find((item) => String(item.id) === button.dataset.edit);
+      editingEducationId = entry.id;
+      educationFields.forEach((key) => { document.getElementById(`e-${key}`).value = entry[key] ?? ''; });
+      document.getElementById('e-heading').textContent = 'Edit Education / Certification';
+      document.getElementById('e-submit').textContent = 'Save Changes';
+      document.getElementById('e-cancel').hidden = false;
+      for (const kind of ['image', 'pdf']) {
+        const box = document.getElementById(`e-${kind}-current`);
+        box.textContent = entry[`${kind}_name`] ? `Saved: ${entry[`${kind}_name`]} — kept unless replaced or removed.` : 'No saved document.';
+      }
+      document.getElementById('e-title').focus();
+    }));
+    tbody.querySelectorAll('[data-delete]').forEach((button) => button.addEventListener('click', async () => {
+      if (!confirm('Delete this entry and its certificate documents?')) return;
+      button.disabled = true;
+      try {
+        await api.del(`/api/education/${button.dataset.delete}`);
+        if (String(editingEducationId) === button.dataset.delete) resetEducation();
+        showMsg('Entry deleted.', false);
+        await loadEducationAdmin();
+      } catch (err) { showMsg(err.message, true); button.disabled = false; }
+    }));
+  } catch {
+    tbody.innerHTML = '<tr><td colspan="4">Could not load entries. <button type="button" id="e-retry">Retry</button></td></tr>';
+    document.getElementById('e-retry').addEventListener('click', loadEducationAdmin);
+  }
+}
+function readCertificateFile(file, kind) {
+  const types = kind === 'pdf' ? ['application/pdf'] : ['image/png', 'image/jpeg', 'image/webp'];
+  if (!types.includes(file.type) || !file.size || file.size > 1024 * 1024) throw new Error('Use PNG, JPEG, WebP or PDF files, up to 1 MB each.');
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error('Could not read the selected file.'));
+    reader.onload = () => resolve({ name: file.name, type: file.type, data: reader.result.split(',')[1] });
+    reader.readAsDataURL(file);
+  });
+}
+educationForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const payload = Object.fromEntries(educationFields.map((key) => [key, document.getElementById(`e-${key}`).value]));
+  payload.sort_order = Number(payload.sort_order);
+  const id = editingEducationId;
+  const controls = [...educationForm.elements];
+  controls.forEach((control) => { control.disabled = true; });
+  try {
+    for (const kind of ['image', 'pdf']) {
+      const file = document.getElementById(`e-${kind}`).files[0];
+      if (file) payload[kind] = await readCertificateFile(file, kind);
+      else if (document.getElementById(`e-${kind}-remove`).checked) payload[kind] = null;
+    }
+    if (id) await api.put(`/api/education/${id}`, payload);
+    else await api.post('/api/education', payload);
+    resetEducation();
+    showMsg(id ? 'Entry updated.' : 'Entry added.', false);
+    await loadEducationAdmin();
+  } catch (err) { showMsg(err.message, true); }
+  finally { controls.forEach((control) => { control.disabled = false; }); }
+});

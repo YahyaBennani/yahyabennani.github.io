@@ -22,7 +22,7 @@ async function loadWriteups() {
       </tr>
     `).join("");
   } catch (err) {
-    tbody.innerHTML = `<tr><td colspan="5" class="empty">Loading error: ${err.message}. Check API_BASE_URL in js/config.js.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="5" class="empty">Loading error: ${escapeHtml(err.message)}. Check API_BASE_URL in js/config.js.</td></tr>`;
   }
 }
 loadWriteups();

@@ -50,5 +50,20 @@ function renderShell(activePage) {
     <span><a href="https://github.com/YahyaBennani" target="_blank" rel="noopener">GitHub</a> · <a href="mailto:ybennani348@gmail.com">Contact</a> · © ${new Date().getFullYear()}</span>
   `;
 
+  document.querySelectorAll(".data-table").forEach((table) => {
+    if (table.parentElement.classList.contains("table-scroll")) return;
+    const wrapper = document.createElement("div");
+    wrapper.className = "table-scroll";
+    table.replaceWith(wrapper);
+    wrapper.append(table);
+  });
+  const taskbar = document.createElement("nav");
+  taskbar.className = "desktop-taskbar";
+  taskbar.setAttribute("aria-label", "Desktop taskbar");
+  taskbar.innerHTML = `<a class="desktop-start bevel-out" href="index.html">Start</a><a class="desktop-task bevel-in" href="${activePage}">Portfolio — ${activePage === "index.html" ? "Home" : activePage.replace(".html", "")}</a><time class="desktop-clock bevel-in"></time>`;
+  const updateClock = () => { taskbar.querySelector("time").textContent = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }); };
+  updateClock();
+  setInterval(updateClock, 60000);
+  document.body.append(taskbar);
   return { termbar, menubar, tabbar, statusbar };
 }

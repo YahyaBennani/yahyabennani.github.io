@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="robots" content="noindex, nofollow" />
 <title>Portfolio — Admin</title>
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; connect-src 'self' https://api.github.com https://gitlab.com https://*.vercel.app; object-src 'none'; base-uri 'self'; form-action 'self'" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data: blob:; connect-src 'self' https://api.github.com https://gitlab.com https://portfolio-xi-wheat-19.vercel.app; object-src 'none'; frame-src blob:; base-uri 'none'; form-action 'self'" />
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
-<link rel="stylesheet" href="css/terminal.css?v=9" />
+<link rel="stylesheet" href="css/terminal.css?v=11" />
 </head>
 <body>
 <div class="crt">
@@ -35,9 +35,10 @@
             <a href="#" data-tab="projects" class="tab-link active">Manage Projects</a>
             <a href="#" data-tab="writeups" class="tab-link">Manage Writeups</a>
             <a href="#" data-tab="tools" class="tab-link">Manage Tools</a>
+            <a href="#" data-tab="education" class="tab-link">Education &amp; Certifications</a>
           </nav>
 
-          <div id="msg-box"></div>
+          <div id="msg-box" role="status" aria-live="polite"></div>
 
           <!-- PROJECTS TAB -->
           <div id="tab-projects" class="tab-panel" style="margin-top:1rem;">
@@ -109,6 +110,38 @@
             </table>
           </div>
 
+          <div id="tab-education" class="tab-panel" style="display:none; margin-top:1rem;">
+            <h2 id="e-heading">New Education / Certification</h2>
+            <form id="education-form">
+              <div class="form-grid">
+                <div><label for="e-title">Title *</label><input id="e-title" maxlength="200" required /></div>
+                <div><label for="e-kind">Type</label><select id="e-kind"><option value="certification">Certification</option><option value="education">Education</option></select></div>
+                <div><label for="e-institution">Institution / Issuer</label><input id="e-institution" maxlength="200" /></div>
+                <div><label for="e-period">Date / Period / Status</label><input id="e-period" maxlength="100" placeholder="2024–2026 · In progress" /></div>
+              </div>
+              <label for="e-description">Description</label><textarea id="e-description" rows="3" maxlength="2000"></textarea>
+              <label for="e-verification_url">Verification link</label><input id="e-verification_url" type="url" maxlength="1000" placeholder="https://..." />
+              <label for="e-sort_order">Display order</label><input id="e-sort_order" type="number" min="-100000" max="100000" step="1" value="0" required />
+              <fieldset>
+                <legend>Certificate documents</legend>
+                <p class="muted">Add an image, a PDF, or both. Maximum 1 MB per file. Documents are public.</p>
+                <label for="e-image">Image (PNG, JPEG, WebP)</label><input id="e-image" type="file" accept="image/png,image/jpeg,image/webp" />
+                <div id="e-image-current" class="attachment-info"></div>
+                <label><input id="e-image-remove" type="checkbox" /> Remove saved image</label>
+                <label for="e-pdf">PDF</label><input id="e-pdf" type="file" accept="application/pdf" />
+                <div id="e-pdf-current" class="attachment-info"></div>
+                <label><input id="e-pdf-remove" type="checkbox" /> Remove saved PDF</label>
+              </fieldset>
+              <button type="submit" id="e-submit">Add Entry</button>
+              <button type="button" id="e-cancel" hidden>Cancel Editing</button>
+            </form>
+            <h2 class="list-heading">Existing Education &amp; Certifications</h2>
+            <div class="table-scroll"><table class="data-table" id="education-admin-table">
+              <thead><tr><th>Title</th><th>Type / Period</th><th>Documents</th><th>Actions</th></tr></thead>
+              <tbody><tr><td colspan="4" class="empty">Loading...</td></tr></tbody>
+            </table></div>
+          </div>
+
           <!-- TOOLS TAB -->
           <div id="tab-tools" class="tab-panel" style="display:none; margin-top:1rem;">
             <p class="muted">These tools power the Arsenal table shown on the home page, by category.</p>
@@ -147,10 +180,11 @@
   <div id="statusbar-slot"></div>
 </div>
 
-<script src="js/util.js?v=9"></script>
-<script src="js/config.js?v=9"></script>
-<script src="js/api.js?v=9"></script>
-<script src="js/layout.js?v=9"></script>
-<script src="js/page-admin.js?v=9"></script>
+<script src="js/util.js?v=11"></script>
+<script src="js/config.js?v=11"></script>
+<script src="js/api.js?v=11"></script>
+<script src="js/layout.js?v=11"></script>
+<script src="js/education.js?v=11"></script>
+<script src="js/page-admin.js?v=11"></script>
 </body>
 </html>
