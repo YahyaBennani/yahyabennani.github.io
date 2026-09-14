@@ -1,0 +1,5 @@
+# Publish only the portfolio pages. Backend is deployed separately by Vercel.
+exclude:
+  - backend
+  - README.md
+  - SECURITY.md
