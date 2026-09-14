@@ -3,8 +3,9 @@ const { Pool } = require('pg');
 // Vercel's Postgres integration (via Neon) exposes DATABASE_URL, not the old
 // POSTGRES_URL used by the now-deprecated @vercel/postgres package.
 function connectionString() {
-  if (!process.env.DATABASE_URL) return undefined;
-  const url = new URL(process.env.DATABASE_URL);
+  const raw = process.env.DATABASE_URL || process.env.POSTGRES_PRISMA_URL || process.env.POSTGRES_URL || process.env.POSTGRES_URL_NON_POOLING;
+  if (!raw) return undefined;
+  const url = new URL(raw);
   // pg URL SSL parameters otherwise override the explicit verification policy below.
   for (const key of ['ssl', 'sslmode', 'sslcert', 'sslkey', 'sslrootcert']) url.searchParams.delete(key);
   return url.toString();
